@@ -21,6 +21,7 @@
 		EA8252C319536A7000F7A3F5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252A519536A7000F7A3F5 /* UIKit.framework */; };
 		EA8252CB19536A7000F7A3F5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA8252C919536A7000F7A3F5 /* InfoPlist.strings */; };
 		EA8252CD19536A7000F7A3F5 /* TestApiRestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8252CC19536A7000F7A3F5 /* TestApiRestTests.m */; };
+		EA892F6C195C9A0100ECECFD /* KCSyncData.m in Sources */ = {isa = PBXBuildFile; fileRef = EA892F6B195C9A0100ECECFD /* KCSyncData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		EA8252C819536A7000F7A3F5 /* TestApiRestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestApiRestTests-Info.plist"; sourceTree = "<group>"; };
 		EA8252CA19536A7000F7A3F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EA8252CC19536A7000F7A3F5 /* TestApiRestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestApiRestTests.m; sourceTree = "<group>"; };
+		EA892F6A195C9A0100ECECFD /* KCSyncData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCSyncData.h; path = TestApiRest/model/KCSyncData.h; sourceTree = "<group>"; };
+		EA892F6B195C9A0100ECECFD /* KCSyncData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCSyncData.m; path = TestApiRest/model/KCSyncData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +85,8 @@
 		EA82529519536A7000F7A3F5 = {
 			isa = PBXGroup;
 			children = (
+				EA892F6A195C9A0100ECECFD /* KCSyncData.h */,
+				EA892F6B195C9A0100ECECFD /* KCSyncData.m */,
 				EA8252A719536A7000F7A3F5 /* TestApiRest */,
 				EA8252C619536A7000F7A3F5 /* TestApiRestTests */,
 				EA8252A019536A7000F7A3F5 /* Frameworks */,
@@ -250,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA892F6C195C9A0100ECECFD /* KCSyncData.m in Sources */,
 				EA8252B819536A7000F7A3F5 /* KCViewController.m in Sources */,
 				EA8252B219536A7000F7A3F5 /* KCAppDelegate.m in Sources */,
 				EA8252AE19536A7000F7A3F5 /* main.m in Sources */,
@@ -457,6 +463,7 @@
 				EA8252D219536A7000F7A3F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EA8252D319536A7000F7A3F5 /* Build configuration list for PBXNativeTarget "TestApiRestTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +472,7 @@
 				EA8252D519536A7000F7A3F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
