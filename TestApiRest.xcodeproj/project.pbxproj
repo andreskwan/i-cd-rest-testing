@@ -22,6 +22,7 @@
 		EA8252CB19536A7000F7A3F5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA8252C919536A7000F7A3F5 /* InfoPlist.strings */; };
 		EA8252CD19536A7000F7A3F5 /* TestApiRestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8252CC19536A7000F7A3F5 /* TestApiRestTests.m */; };
 		EA892F6C195C9A0100ECECFD /* KCSyncData.m in Sources */ = {isa = PBXBuildFile; fileRef = EA892F6B195C9A0100ECECFD /* KCSyncData.m */; };
+		EA892F6F195D211B00ECECFD /* KCCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = EA892F6E195D211B00ECECFD /* KCCoreDataStack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		EA8252CC19536A7000F7A3F5 /* TestApiRestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestApiRestTests.m; sourceTree = "<group>"; };
 		EA892F6A195C9A0100ECECFD /* KCSyncData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCSyncData.h; path = TestApiRest/model/KCSyncData.h; sourceTree = "<group>"; };
 		EA892F6B195C9A0100ECECFD /* KCSyncData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCSyncData.m; path = TestApiRest/model/KCSyncData.m; sourceTree = "<group>"; };
+		EA892F6D195D211B00ECECFD /* KCCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCCoreDataStack.h; sourceTree = "<group>"; };
+		EA892F6E195D211B00ECECFD /* KCCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCCoreDataStack.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +88,7 @@
 		EA82529519536A7000F7A3F5 = {
 			isa = PBXGroup;
 			children = (
-				EA892F6A195C9A0100ECECFD /* KCSyncData.h */,
-				EA892F6B195C9A0100ECECFD /* KCSyncData.m */,
+				EA892F70195D212500ECECFD /* model */,
 				EA8252A719536A7000F7A3F5 /* TestApiRest */,
 				EA8252C619536A7000F7A3F5 /* TestApiRestTests */,
 				EA8252A019536A7000F7A3F5 /* Frameworks */,
@@ -155,6 +157,17 @@
 				EA8252C919536A7000F7A3F5 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EA892F70195D212500ECECFD /* model */ = {
+			isa = PBXGroup;
+			children = (
+				EA892F6A195C9A0100ECECFD /* KCSyncData.h */,
+				EA892F6B195C9A0100ECECFD /* KCSyncData.m */,
+				EA892F6D195D211B00ECECFD /* KCCoreDataStack.h */,
+				EA892F6E195D211B00ECECFD /* KCCoreDataStack.m */,
+			);
+			name = model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +270,7 @@
 			files = (
 				EA892F6C195C9A0100ECECFD /* KCSyncData.m in Sources */,
 				EA8252B819536A7000F7A3F5 /* KCViewController.m in Sources */,
+				EA892F6F195D211B00ECECFD /* KCCoreDataStack.m in Sources */,
 				EA8252B219536A7000F7A3F5 /* KCAppDelegate.m in Sources */,
 				EA8252AE19536A7000F7A3F5 /* main.m in Sources */,
 			);

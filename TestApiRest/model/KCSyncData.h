@@ -10,4 +10,6 @@
 
 @interface KCSyncData : NSObject
 + (KCSyncData *) sharedSyncDataEngine;
+
+- (void)registerNSManagedObjectClassToSync:(Class)aClass;
 @end
