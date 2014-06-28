@@ -23,7 +23,7 @@
 		EA8252CD19536A7000F7A3F5 /* TestApiRestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8252CC19536A7000F7A3F5 /* TestApiRestTests.m */; };
 		EA892F6C195C9A0100ECECFD /* KCSyncData.m in Sources */ = {isa = PBXBuildFile; fileRef = EA892F6B195C9A0100ECECFD /* KCSyncData.m */; };
 		EA892F6F195D211B00ECECFD /* KCCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = EA892F6E195D211B00ECECFD /* KCCoreDataStack.m */; };
-		EA892F73195E12C300ECECFD /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA892F71195E12C300ECECFD /* Model.xcdatamodeld */; };
+		EA892F73195E12C300ECECFD /* TestApiRest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA892F71195E12C300ECECFD /* TestApiRest.xcdatamodeld */; };
 		EA892F76195E143900ECECFD /* Holiday.m in Sources */ = {isa = PBXBuildFile; fileRef = EA892F75195E143900ECECFD /* Holiday.m */; };
 		EA892F78195E147800ECECFD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA892F77195E147800ECECFD /* CoreData.framework */; };
 /* End PBXBuildFile section */
@@ -62,7 +62,7 @@
 		EA892F6B195C9A0100ECECFD /* KCSyncData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCSyncData.m; path = TestApiRest/model/KCSyncData.m; sourceTree = "<group>"; };
 		EA892F6D195D211B00ECECFD /* KCCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCCoreDataStack.h; sourceTree = "<group>"; };
 		EA892F6E195D211B00ECECFD /* KCCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCCoreDataStack.m; sourceTree = "<group>"; };
-		EA892F72195E12C300ECECFD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		EA892F72195E12C300ECECFD /* TestApiRest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestApiRest.xcdatamodel; sourceTree = "<group>"; };
 		EA892F74195E143900ECECFD /* Holiday.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Holiday.h; path = TestApiRest/model/Holiday.h; sourceTree = "<group>"; };
 		EA892F75195E143900ECECFD /* Holiday.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Holiday.m; path = TestApiRest/model/Holiday.m; sourceTree = "<group>"; };
 		EA892F77195E147800ECECFD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -171,7 +171,7 @@
 		EA892F70195D212500ECECFD /* model */ = {
 			isa = PBXGroup;
 			children = (
-				EA892F71195E12C300ECECFD /* Model.xcdatamodeld */,
+				EA892F71195E12C300ECECFD /* TestApiRest.xcdatamodeld */,
 				EA892F74195E143900ECECFD /* Holiday.h */,
 				EA892F75195E143900ECECFD /* Holiday.m */,
 				EA892F6A195C9A0100ECECFD /* KCSyncData.h */,
@@ -286,7 +286,7 @@
 				EA892F6F195D211B00ECECFD /* KCCoreDataStack.m in Sources */,
 				EA8252B219536A7000F7A3F5 /* KCAppDelegate.m in Sources */,
 				EA8252AE19536A7000F7A3F5 /* main.m in Sources */,
-				EA892F73195E12C300ECECFD /* Model.xcdatamodeld in Sources */,
+				EA892F73195E12C300ECECFD /* TestApiRest.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,14 +505,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		EA892F71195E12C300ECECFD /* Model.xcdatamodeld */ = {
+		EA892F71195E12C300ECECFD /* TestApiRest.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				EA892F72195E12C300ECECFD /* Model.xcdatamodel */,
+				EA892F72195E12C300ECECFD /* TestApiRest.xcdatamodel */,
 			);
-			currentVersion = EA892F72195E12C300ECECFD /* Model.xcdatamodel */;
-			name = Model.xcdatamodeld;
-			path = TestApiRest/model/Model.xcdatamodeld;
+			currentVersion = EA892F72195E12C300ECECFD /* TestApiRest.xcdatamodel */;
+			name = TestApiRest.xcdatamodeld;
+			path = TestApiRest/model/TestApiRest.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

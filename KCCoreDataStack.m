@@ -43,7 +43,7 @@
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
             // Replace this implementation with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-#warning this should not be in production
+            #warning ToDo - this should not be in production
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
@@ -116,7 +116,7 @@
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    #warning CHANGE modelURL
+    #warning ToDo - CHANGE modelURL
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"TestApiRest"
                                               withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
@@ -132,7 +132,7 @@
     }
     
     //where our data store is going to live
-    #warning CHANGE storeURL
+    #warning ToDo - CHANGE storeURL
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"TestApiRest.sqlite"];
     
     NSError *error = nil;
@@ -162,7 +162,7 @@
          
          */
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-#warning this should not be in production
+        #warning ToDo -  this should not be in production
         abort();
     }
     

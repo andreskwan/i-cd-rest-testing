@@ -9,7 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface KCSyncData : NSObject
+
+//to track the sync status:
+@property (atomic, readonly) BOOL syncInProgress;
+
 + (KCSyncData *) sharedSyncDataEngine;
 
 - (void)registerNSManagedObjectClassToSync:(Class)aClass;
+- (void)startSync;
+
 @end

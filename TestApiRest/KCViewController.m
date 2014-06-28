@@ -90,6 +90,8 @@ static NSString* const kBaseURL = @"http://localhost:3001/seriestv";
 }
 
 - (IBAction)getObjButtonPressed {
+    
+    
     self.label.text = @"Get button pressed";
     NSString * idString = @"5362a8449cb4c8e21d09f45b";
     NSString * urlString = [NSString stringWithFormat:@"http://localhost:3001/seriestv/%@", idString];

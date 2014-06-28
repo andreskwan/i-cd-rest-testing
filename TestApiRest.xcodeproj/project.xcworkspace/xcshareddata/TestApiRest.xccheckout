@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A988C5C4-DB9F-4DE6-885C-F3F583A7E408</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TestApiRest</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CD6BE1EA-499A-413B-8C73-BE7818EB18AB</key>
+		<string>https://github.com/andreskwan/i-cd-rest-testing.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TestApiRest.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CD6BE1EA-499A-413B-8C73-BE7818EB18AB</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/andreskwan/i-cd-rest-testing.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CD6BE1EA-499A-413B-8C73-BE7818EB18AB</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CD6BE1EA-499A-413B-8C73-BE7818EB18AB</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TestApiRest</string>
+		</dict>
+	</array>
+</dict>
+</plist>
