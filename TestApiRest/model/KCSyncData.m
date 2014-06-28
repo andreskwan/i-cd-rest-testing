@@ -11,6 +11,10 @@
 
 static NSString* const serverURL = @"http://localhost:3001/holidays";
 
+NSString * const kSDSyncEngineInitialCompleteKey            = @"SDSyncEngineInitialSyncCompleted";
+NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSyncCompleted";
+
+
 @interface KCSyncData()
 
 @property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
@@ -146,17 +150,23 @@ static NSString* const serverURL = @"http://localhost:3001/holidays";
                                                                               error:&error];
                            if (error == nil) {
                                NSLog(@"obj class:%@", [arrayOfDict class]);
-                               for (id jsonDict in arrayOfDict)
-                               {
-                                   if ([jsonDict isKindOfClass:[NSDictionary class]]) {
+                               
+                               [self writeJSONResponse:arrayOfDict
+                                toDiskForClassWithName:className];
+                               
+                               
+                               
+//                               for (id jsonDict in arrayOfDict)
+//                               {
+//                                   if ([jsonDict isKindOfClass:[NSDictionary class]]) {
 //                                       [self writeJSONResponse:jsonDict
 //                                        toDiskForClassWithName:className];
-                                       
-                                       NSLog(@"Response for %@: %@", className, jsonDict);
-                                   }else{
-                                       NSLog(@"is not a dictionary is: %@", [jsonDict class]);
-                                   }
-                               }
+//                                      
+//                                       NSLog(@"Response for %@: %@", className, jsonDict);
+//                                   }else{
+//                                       NSLog(@"is not a dictionary is: %@", [jsonDict class]);
+//                                   }
+//                               }
                                // 1
                                // Need to write JSON files to disk
                                
@@ -196,43 +206,56 @@ static NSString* const serverURL = @"http://localhost:3001/holidays";
                                 attributes:nil
                                      error:&error];
     }
-    
     return url;
 }
 
-- (void)writeJSONResponse:(id)jsonResponse
+- (void)writeJSONResponse:(id)arrayOfJson
    toDiskForClassWithName:(NSString *)className
 {
     NSURL *fileURL = [NSURL URLWithString:className
                             relativeToURL:[self JSONDataRecordsDirectory]];
     
-    if (![(NSDictionary *)jsonResponse writeToFile:[fileURL path] atomically:YES])
-    {
-        NSLog(@"Error saving response to disk, will attempt to remove NSNull values and try again.");
-        
-        // remove NSNulls and try again...
-        // this key doesn't exist in my dict from the server
-        NSArray *records = [jsonResponse objectForKey:@"results"];
-        
-        NSMutableArray *nullFreeRecords = [NSMutableArray array];
-        for (NSDictionary *record in records)
+    for (NSDictionary * dict in arrayOfJson) {
+        if ([(NSDictionary *)dict writeToFile:[fileURL path] atomically:YES])
         {
-            NSMutableDictionary *nullFreeRecord = [NSMutableDictionary dictionaryWithDictionary:
-                                                   record];
-            [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                if ([obj isKindOfClass:[NSNull class]]) {
-                    [nullFreeRecord setValue:nil forKey:key];
-                }
-            }];
-            [nullFreeRecords addObject:nullFreeRecord];
+            NSLog(@"Json data saved in: %@", fileURL);
+        }else{
+            NSLog(@"Error saving response to disk, will attempt to remove NSNull values and try again.");
         }
-        NSDictionary *nullFreeDictionary = [NSDictionary dictionaryWithObject:nullFreeRecords
-                                                                       forKey:@"results"];
-        if (![nullFreeDictionary writeToFile:[fileURL path] atomically:YES])
-        {
-            NSLog(@"Failed all attempts to save response to disk: %@", jsonResponse);
-        }
+        
     }
 }
+//    if (![(NSDictionary *)arrayOfJson writeToFile:[fileURL path] atomically:YES])
+//    {
+//        //    {
+//        //        NSLog(@"Json data saved in: %@", fileURL);
+//        //    }else{
+//        //        NSLog(@"Error saving response to disk, will attempt to remove NSNull values and try again.");
+//        //    }
+//        NSLog(@"Error saving response to disk, will attempt to remove NSNull values and try again.");
+//              // remove NSNulls and try again...
+//              NSArray *records = [arrayOfJson objectForKey:@"results"];
+//              NSMutableArray *nullFreeRecords = [NSMutableArray array];
+//              for (NSDictionary *record in records) {
+//                  
+//                  NSMutableDictionary *nullFreeRecord =
+//                  [NSMutableDictionary dictionaryWithDictionary:record];
+//                  
+//                  [record enumerateKeysAndObjectsUsingBlock:
+//                   ^(id key, id obj, BOOL *stop)
+//                    {
+//                      if ([obj isKindOfClass:[NSNull class]]) {
+//                          [nullFreeRecord setValue:nil forKey:key];
+//                      }
+//                    }];
+//                  [nullFreeRecords addObject:nullFreeRecord];
+//              }
+//              NSDictionary *nullFreeDictionary = [NSDictionary dictionaryWithObject:nullFreeRecords
+//                                                                             forKey:@"results"];
+//              if (![nullFreeDictionary writeToFile:[fileURL path] atomically:YES]) {
+//                  NSLog(@"Failed all attempts to save response to disk: %@", arrayOfJson);
+//              }
+//    }
+//}
 
 @end
