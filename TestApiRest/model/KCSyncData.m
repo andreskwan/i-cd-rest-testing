@@ -18,6 +18,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 @interface KCSyncData()
 
 @property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end
 
@@ -27,7 +28,8 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 //@synthesize syncInProgress = _syncInProgress;
 
 #pragma mark singleton
-+ (KCSyncData *)sharedSyncDataEngine {
++ (KCSyncData *)sharedSyncDataEngine
+{
     static KCSyncData *sharedEngine = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -35,9 +37,9 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     });
     return sharedEngine;
 }
-
-//
-- (void)startSync {
+#pragma mark Sync methods
+- (void)startSync
+{
     if (!self.syncInProgress) {
         //property value is about to change
         //invoke this method when implementing key-value observer compliance manually. WHAT!!!
@@ -53,8 +55,34 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
                        });
     }
 }
-
-#pragma mark Helpers
+- (BOOL)initialSyncComplete
+{
+    //how to use NSUserDefaults to retrieve a store a value
+    return [[[NSUserDefaults standardUserDefaults] valueForKey:kSDSyncEngineInitialCompleteKey]
+            boolValue];
+}
+- (void)setInitialSyncCompleted
+{
+    //how to use NSUserDefaults to set or store a value
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES]
+                                             forKey:kSDSyncEngineInitialCompleteKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+#warning ToDo - Identify where (by whom) and when this method is called
+- (void)executeSyncCompletedOperations
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setInitialSyncCompleted];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotificationName
+                                                            object:nil];
+        [self willChangeValueForKey:@"syncInProgress"];
+        
+        _syncInProgress = NO;
+        
+        [self didChangeValueForKey:@"syncInProgress"];
+    });
+}
+#pragma mark Core Data Helpers
 //Register the NSManagedObjects that will be sync with a remote server
 //use an array to hold this classes (templates)
 - (void)registerNSManagedObjectClassToSync:(Class)aClass
@@ -76,7 +104,6 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
               NSStringFromClass(aClass));
     }
 }
-
 //returns the “most recent last modified date” for a specific entity.
 - (NSDate *)mostRecentUpdatedAtDateForEntityWithName:(NSString *)entityName
 {
@@ -113,11 +140,43 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
      }];
     return date;
 }
-
-#pragma Networking
+#warning ToDo - what does mongo return?
+- (void)setValue:(id)value
+          forKey:(NSString *)key
+forManagedObject:(NSManagedObject *)managedObject
+{
+    if ([key isEqualToString:@"createdAt"] || [key isEqualToString:@"updatedAt"]) {
+        NSDate *date = [self dateUsingStringFromAPI:value];
+        [managedObject setValue:date forKey:key];
+    } else if ([value isKindOfClass:[NSDictionary class]]) {
+        if ([value objectForKey:@"__type"]) {
+            NSString *dataType = [value objectForKey:@"__type"];
+            if ([dataType isEqualToString:@"Date"]) {
+                NSString *dateString = [value objectForKey:@"iso"];
+                NSDate *date = [self dateUsingStringFromAPI:dateString];
+                [managedObject setValue:date forKey:key];
+            } else if ([dataType isEqualToString:@"File"]) {
+                NSString *urlString = [value objectForKey:@"url"];
+                NSURL *url = [NSURL URLWithString:urlString];
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                NSURLResponse *response = nil;
+                NSError *error = nil;
+                NSData *dataResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&
+                                        response error:&error];
+                [managedObject setValue:dataResponse forKey:key];
+            } else {
+                NSLog(@"Unknown Data Type Received");
+                [managedObject setValue:nil forKey:key];
+            }
+        }
+    } else {
+        [managedObject setValue:value forKey:key];
+    }
+}
+#pragma mark Networking
 // replace AFNetworking with NSURLSession
-//
-- (void)downloadDataForRegisteredObjects:(BOOL)useUpdatedAtDate {
+- (void)downloadDataForRegisteredObjects:(BOOL)useUpdatedAtDate
+{
     //for each managedObj in the array
     for (NSString *className in self.registeredClassesToSync) {
         NSDate *mostRecentUpdatedDate = nil;
@@ -148,34 +207,14 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
                            id arrayOfDict = [NSJSONSerialization JSONObjectWithData:data
                                                                             options:0
                                                                               error:&error];
-                           if (error == nil) {
+                           if (error == nil)
+                           {
                                NSLog(@"obj class:%@", [arrayOfDict class]);
                                
                                [self writeJSONResponse:arrayOfDict
                                 toDiskForClassWithName:className];
-                               
-                               
-                               
-//                               for (id jsonDict in arrayOfDict)
-//                               {
-//                                   if ([jsonDict isKindOfClass:[NSDictionary class]]) {
-//                                       [self writeJSONResponse:jsonDict
-//                                        toDiskForClassWithName:className];
-//                                      
-//                                       NSLog(@"Response for %@: %@", className, jsonDict);
-//                                   }else{
-//                                       NSLog(@"is not a dictionary is: %@", [jsonDict class]);
-//                                   }
-//                               }
-                               // 1
-                               // Need to write JSON files to disk
-                               
-                               // 2
-                               // - Add a method here that takes the responses saved to disk and
-                               //   processes them into Core Data.
-                               // - Need to process JSON records into Core Data
-                               //
-                           }else{
+    
+                            }else{
                                NSLog(@"Request for class %@ failed with error: %@", className, error);
                            }
                        }
@@ -183,8 +222,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         [dataTask resume]; //8
     }//end for each
 }
-
-#pragma mark - File Management
+#pragma mark - Write plist(JSON) to disk
 //return an NSURL to a location on disk where the files will reside
 //take a look at them
 - (NSURL *)applicationCacheDirectory
@@ -208,7 +246,6 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     }
     return url;
 }
-
 - (void)writeJSONResponse:(id)arrayOfJson
    toDiskForClassWithName:(NSString *)className
 {
@@ -219,43 +256,115 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         if ([(NSDictionary *)dict writeToFile:[fileURL path] atomically:YES])
         {
             NSLog(@"Json data saved in: %@", fileURL);
+        #warning ToDO - handel NSNull
         }else{
             NSLog(@"Error saving response to disk, will attempt to remove NSNull values and try again.");
         }
         
     }
 }
-//    if (![(NSDictionary *)arrayOfJson writeToFile:[fileURL path] atomically:YES])
-//    {
-//        //    {
-//        //        NSLog(@"Json data saved in: %@", fileURL);
-//        //    }else{
-//        //        NSLog(@"Error saving response to disk, will attempt to remove NSNull values and try again.");
-//        //    }
-//        NSLog(@"Error saving response to disk, will attempt to remove NSNull values and try again.");
-//              // remove NSNulls and try again...
-//              NSArray *records = [arrayOfJson objectForKey:@"results"];
-//              NSMutableArray *nullFreeRecords = [NSMutableArray array];
-//              for (NSDictionary *record in records) {
-//                  
-//                  NSMutableDictionary *nullFreeRecord =
-//                  [NSMutableDictionary dictionaryWithDictionary:record];
-//                  
-//                  [record enumerateKeysAndObjectsUsingBlock:
-//                   ^(id key, id obj, BOOL *stop)
-//                    {
-//                      if ([obj isKindOfClass:[NSNull class]]) {
-//                          [nullFreeRecord setValue:nil forKey:key];
-//                      }
-//                    }];
-//                  [nullFreeRecords addObject:nullFreeRecord];
-//              }
-//              NSDictionary *nullFreeDictionary = [NSDictionary dictionaryWithObject:nullFreeRecords
-//                                                                             forKey:@"results"];
-//              if (![nullFreeDictionary writeToFile:[fileURL path] atomically:YES]) {
-//                  NSLog(@"Failed all attempts to save response to disk: %@", arrayOfJson);
-//              }
+#pragma mark Read plist(JSON) from disk
+#warning ToDo - Test this
+//returns an array of json objs identifyed by key "results"
+- (NSDictionary *)JSONDictionaryForClassWithName:(NSString *)className
+{
+    NSURL *fileURL = [NSURL URLWithString:className
+                            relativeToURL:[self JSONDataRecordsDirectory]];
+    return [NSDictionary dictionaryWithContentsOfURL:fileURL];
+}
+//
+- (NSArray *)JSONDataRecordsForClass:(NSString *)className
+                         sortedByKey:(NSString *)key
+{
+    NSDictionary *JSONDictionary = [self JSONDictionaryForClassWithName:className];
+    NSArray *records = [JSONDictionary objectForKey:@"results"];
+    
+    return [records sortedArrayUsingDescriptors:[NSArray arrayWithObject:
+                                                 [NSSortDescriptor
+                                                  sortDescriptorWithKey:key ascending:YES]]];
+}
+#pragma mark Delete plist(JSON) on disk
+#warning ToDo - Test this
+//delete the plist
+- (void)deleteJSONDataRecordsForClassWithName:(NSString *)className
+{
+    NSURL *url = [NSURL URLWithString:className
+                        relativeToURL:[self JSONDataRecordsDirectory]];
+    
+    NSError *error = nil;
+    BOOL deleted = [[NSFileManager defaultManager] removeItemAtURL:url
+                                                             error:&error];
+    if (!deleted) {
+        NSLog(@"Unable to delete JSON Records at %@, reason: %@", url, error);
+    }
+}
+#pragma mark Data from plist to NSMagedObjs
+#warning DONE - ToDo - Test this
+//- (void)initializeDateFormatter
+//{
+//    if (!self.dateFormatter) {
+//        self.dateFormatter = [[NSDateFormatter alloc] init];
+//        [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+//        [self.dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
 //    }
 //}
+- (NSDateFormatter *)dateFormatter
+{
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+        [_dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    }
+    return _dateFormatter;
+}
+//receives an NSString and returns an NSDate object
+- (NSDate *)dateUsingStringFromAPI:(NSString *)dateString
+{
+//    [self initializeDateFormatter];
+    // NSDateFormatter does not like ISO 8601 so strip the milliseconds and timezone
+    dateString = [dateString substringWithRange:NSMakeRange(0, [dateString length]-5)];
+    return [self.dateFormatter dateFromString:dateString];
+}
+//receives an NSDate and returns an NSString
+- (NSString *)dateStringForAPIUsingDate:(NSDate *)date
+{
+//    [self initializeDateFormatter];
+    NSString *dateString = [self.dateFormatter stringFromDate:date];
+    // remove Z
+    dateString = [dateString substringWithRange: NSMakeRange(0, [dateString length]-1)];
+    // add milliseconds and put Z back on
+    dateString = [dateString stringByAppendingFormat:@".000Z"];
+    return dateString;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end

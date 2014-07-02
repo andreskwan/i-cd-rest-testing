@@ -18,4 +18,7 @@
 - (void)registerNSManagedObjectClassToSync:(Class)aClass;
 - (void)startSync;
 
+//put here to allow testing
+- (NSDate *)dateUsingStringFromAPI:(NSString *)dateString;
+- (NSString *)dateStringForAPIUsingDate:(NSDate *)date;
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "KCSyncData.h"
 
 @interface TestApiRestTests : XCTestCase
 
@@ -18,6 +19,7 @@
 {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+
 }
 
 - (void)tearDown
@@ -26,9 +28,24 @@
     [super tearDown];
 }
 
-- (void)testExample
+//- (void)testExample
+//{
+//    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+//    
+//}
+
+-(void)testDateUsingStringFromServer
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    KCSyncData * syncData = [[KCSyncData alloc]init];
+    NSString * strTestDate = @"2012-12-25T00:00:00.000Z";
+    NSLog(@"##########################################");
+    NSDate * nsDate = [syncData dateUsingStringFromAPI:strTestDate];
+    NSLog(@"date string: %@", nsDate);
+    NSLog(@"##########################################");
+    NSString * nsStrDate = [syncData dateStringForAPIUsingDate:nsDate];
+    NSLog(@"date string: %@", nsStrDate);
 }
+
+//-(void)test
 
 @end
