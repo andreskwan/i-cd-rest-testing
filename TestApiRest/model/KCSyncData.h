@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "KCCoreDataStack.h"
+
 
 @interface KCSyncData : NSObject
 
@@ -18,7 +20,17 @@
 - (void)registerNSManagedObjectClassToSync:(Class)aClass;
 - (void)startSync;
 
-//put here to allow testing
+
+- (void)setValue:(id)value
+          forKey:(NSString *)key
+forManagedObject:(NSManagedObject *)managedObject;
+
+//#pragma mark Read plist(JSON) from disk
+- (NSDictionary *)JSONDictionaryForClassWithName:(NSString *)className;
+- (NSArray *)JSONDataRecordsForClass:(NSString *)className
+                         sortedByKey:(NSString *)key;
+
+//#pragma mark Date data manipulation
 - (NSDate *)dateUsingStringFromAPI:(NSString *)dateString;
 - (NSString *)dateStringForAPIUsingDate:(NSDate *)date;
 @end

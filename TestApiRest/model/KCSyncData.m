@@ -7,7 +7,6 @@
 //
 
 #import "KCSyncData.h"
-#import "KCCoreDataStack.h"
 
 static NSString* const serverURL = @"http://localhost:3001/holidays";
 
@@ -251,17 +250,17 @@ forManagedObject:(NSManagedObject *)managedObject
 {
     NSURL *fileURL = [NSURL URLWithString:className
                             relativeToURL:[self JSONDataRecordsDirectory]];
-    
-    for (NSDictionary * dict in arrayOfJson) {
-        if ([(NSDictionary *)dict writeToFile:[fileURL path] atomically:YES])
+    //here I should save the array
+    //or create one
+//    for (NSDictionary * dict in arrayOfJson) {
+        if ([arrayOfJson writeToFile:[fileURL path] atomically:YES])
         {
             NSLog(@"Json data saved in: %@", fileURL);
         #warning ToDO - handel NSNull
         }else{
             NSLog(@"Error saving response to disk, will attempt to remove NSNull values and try again.");
         }
-        
-    }
+//    }
 }
 #pragma mark Read plist(JSON) from disk
 #warning ToDo - Test this
@@ -272,7 +271,7 @@ forManagedObject:(NSManagedObject *)managedObject
                             relativeToURL:[self JSONDataRecordsDirectory]];
     return [NSDictionary dictionaryWithContentsOfURL:fileURL];
 }
-//
+
 - (NSArray *)JSONDataRecordsForClass:(NSString *)className
                          sortedByKey:(NSString *)key
 {
@@ -298,16 +297,8 @@ forManagedObject:(NSManagedObject *)managedObject
         NSLog(@"Unable to delete JSON Records at %@, reason: %@", url, error);
     }
 }
-#pragma mark Data from plist to NSMagedObjs
+#pragma mark Date data manipulation
 #warning DONE - ToDo - Test this
-//- (void)initializeDateFormatter
-//{
-//    if (!self.dateFormatter) {
-//        self.dateFormatter = [[NSDateFormatter alloc] init];
-//        [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-//        [self.dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-//    }
-//}
 - (NSDateFormatter *)dateFormatter
 {
     if (!_dateFormatter) {
@@ -320,7 +311,6 @@ forManagedObject:(NSManagedObject *)managedObject
 //receives an NSString and returns an NSDate object
 - (NSDate *)dateUsingStringFromAPI:(NSString *)dateString
 {
-//    [self initializeDateFormatter];
     // NSDateFormatter does not like ISO 8601 so strip the milliseconds and timezone
     dateString = [dateString substringWithRange:NSMakeRange(0, [dateString length]-5)];
     return [self.dateFormatter dateFromString:dateString];
@@ -328,7 +318,6 @@ forManagedObject:(NSManagedObject *)managedObject
 //receives an NSDate and returns an NSString
 - (NSString *)dateStringForAPIUsingDate:(NSDate *)date
 {
-//    [self initializeDateFormatter];
     NSString *dateString = [self.dateFormatter stringFromDate:date];
     // remove Z
     dateString = [dateString substringWithRange: NSMakeRange(0, [dateString length]-1)];

@@ -28,16 +28,12 @@
     [super tearDown];
 }
 
-//- (void)testExample
-//{
-//    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
-//    
-//}
-
+#warning ToDo - test each method separately
 -(void)testDateUsingStringFromServer
 {
     KCSyncData * syncData = [[KCSyncData alloc]init];
-    NSString * strTestDate = @"2012-12-25T00:00:00.000Z";
+//    NSString * strTestDate = @"2012-12-25T00:00:00.000Z";
+    NSString * strTestDate = @"2014-06-28T17:58:18.846Z";
     NSLog(@"##########################################");
     NSDate * nsDate = [syncData dateUsingStringFromAPI:strTestDate];
     NSLog(@"date string: %@", nsDate);
@@ -46,6 +42,11 @@
     NSLog(@"date string: %@", nsStrDate);
 }
 
-//-(void)test
+-(void)testJSONDictionaryForClassWithNameHoliday
+{
+    KCSyncData * syncData = [[KCSyncData alloc]init];
+    NSString * className = @"Holiday";
+    NSLog(@"ClassName: %@ NSDictionary:%@",className, [syncData JSONDictionaryForClassWithName:className]);
+}
 
 @end
