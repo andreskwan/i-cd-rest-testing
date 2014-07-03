@@ -36,6 +36,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     });
     return sharedEngine;
 }
+
 #pragma mark Sync methods
 - (void)startSync
 {
@@ -81,9 +82,11 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
         [self didChangeValueForKey:@"syncInProgress"];
     });
 }
+
 #pragma mark Core Data Helpers
 //Register the NSManagedObjects that will be sync with a remote server
 //use an array to hold this classes (templates)
+#warning ToDo - Test
 - (void)registerNSManagedObjectClassToSync:(Class)aClass
 {
     if (!self.registeredClassesToSync) {
@@ -104,6 +107,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     }
 }
 //returns the “most recent last modified date” for a specific entity.
+#warning ToDo - Test
 - (NSDate *)mostRecentUpdatedAtDateForEntityWithName:(NSString *)entityName
 {
     __block NSDate *date = nil;
@@ -139,7 +143,27 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
      }];
     return date;
 }
-#warning ToDo - what does mongo return?
+- (void)newManagedObjectWithClassName:(NSString *)className
+                            forRecord:(NSDictionary*)record
+{
+    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className
+                                                                      inManagedObjectContext:
+                                         [[KCCoreDataStack shareCoreDataInstance] backgroundManagedObjectContext]];
+    [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [self setValue:obj forKey:key forManagedObject:newManagedObject];
+    }];
+    [record setValue:[NSNumber numberWithInt:SDObjectSynced]
+              forKey:@"syncStatus"];
+}
+- (void)updateManagedObject:(NSManagedObject *)managedObject
+                 withRecord:(NSDictionary *)record
+{
+    [record enumerateKeysAndObjectsUsingBlock:
+     ^(id key, id obj, BOOL *stop) {
+        [self setValue:obj forKey:key forManagedObject:managedObject];
+    }];
+}
+#warning ToDo - Test this what does mongo return?
 - (void)setValue:(id)value
           forKey:(NSString *)key
 forManagedObject:(NSManagedObject *)managedObject
@@ -172,6 +196,7 @@ forManagedObject:(NSManagedObject *)managedObject
         [managedObject setValue:value forKey:key];
     }
 }
+
 #pragma mark Networking
 // replace AFNetworking with NSURLSession
 - (void)downloadDataForRegisteredObjects:(BOOL)useUpdatedAtDate
@@ -221,9 +246,11 @@ forManagedObject:(NSManagedObject *)managedObject
         [dataTask resume]; //8
     }//end for each
 }
-#pragma mark - Write plist(JSON) to disk
-//return an NSURL to a location on disk where the files will reside
+
+#pragma mark Write plist(JSON) to disk
+//return the NSURL of the location on disk for the cache directory
 //take a look at them
+#warning DONE - ToDo - Test this
 - (NSURL *)applicationCacheDirectory
 {
 #warning ToDo - Review the content of this file
@@ -234,8 +261,8 @@ forManagedObject:(NSManagedObject *)managedObject
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    NSURL *url = [NSURL URLWithString:@"JSONRecords/" relativeToURL:[self applicationCacheDirectory]];
-    
+    NSURL *url = [NSURL URLWithString:@"JSONRecords/"
+                        relativeToURL:[self applicationCacheDirectory]];
     NSError *error = nil;
     if (![fileManager fileExistsAtPath:[url path]]) {
         [fileManager createDirectoryAtPath:[url path]
@@ -245,51 +272,48 @@ forManagedObject:(NSManagedObject *)managedObject
     }
     return url;
 }
-- (void)writeJSONResponse:(id)arrayOfJson
+- (void)writeJSONResponse:(id)arrayOfNsDictJson
    toDiskForClassWithName:(NSString *)className
 {
     NSURL *fileURL = [NSURL URLWithString:className
                             relativeToURL:[self JSONDataRecordsDirectory]];
-    //here I should save the array
-    //or create one
-//    for (NSDictionary * dict in arrayOfJson) {
-        if ([arrayOfJson writeToFile:[fileURL path] atomically:YES])
+        #warning ToDo - should this go into a block, be async, another thread?
+        if ([arrayOfNsDictJson writeToFile:[fileURL path] atomically:YES])
         {
             NSLog(@"Json data saved in: %@", fileURL);
-        #warning ToDO - handel NSNull
+        #warning ToDO - handle NSNull
         }else{
             NSLog(@"Error saving response to disk, will attempt to remove NSNull values and try again.");
         }
-//    }
 }
+
 #pragma mark Read plist(JSON) from disk
-#warning ToDo - Test this
-//returns an array of json objs identifyed by key "results"
-- (NSDictionary *)JSONDictionaryForClassWithName:(NSString *)className
+#warning DONE - ToDo - Test this
+//returns an array of json objs identifyed by key "results" stored in a plist
+- (NSArray *)JSONDictionaryForClassWithName:(NSString *)className
 {
     NSURL *fileURL = [NSURL URLWithString:className
                             relativeToURL:[self JSONDataRecordsDirectory]];
-    return [NSDictionary dictionaryWithContentsOfURL:fileURL];
+    NSArray * nsArrayFronDisk = [NSArray arrayWithContentsOfURL:fileURL];
+    return nsArrayFronDisk;
 }
-
 - (NSArray *)JSONDataRecordsForClass:(NSString *)className
                          sortedByKey:(NSString *)key
 {
-    NSDictionary *JSONDictionary = [self JSONDictionaryForClassWithName:className];
-    NSArray *records = [JSONDictionary objectForKey:@"results"];
+    NSArray *records = [self JSONDictionaryForClassWithName:className];
     
     return [records sortedArrayUsingDescriptors:[NSArray arrayWithObject:
                                                  [NSSortDescriptor
-                                                  sortDescriptorWithKey:key ascending:YES]]];
+                                                  sortDescriptorWithKey:key ascending:NO]]];
 }
+
 #pragma mark Delete plist(JSON) on disk
-#warning ToDo - Test this
+#warning DONE - ToDo - Test this
 //delete the plist
 - (void)deleteJSONDataRecordsForClassWithName:(NSString *)className
 {
     NSURL *url = [NSURL URLWithString:className
                         relativeToURL:[self JSONDataRecordsDirectory]];
-    
     NSError *error = nil;
     BOOL deleted = [[NSFileManager defaultManager] removeItemAtURL:url
                                                              error:&error];
@@ -297,11 +321,13 @@ forManagedObject:(NSManagedObject *)managedObject
         NSLog(@"Unable to delete JSON Records at %@, reason: %@", url, error);
     }
 }
+
 #pragma mark Date data manipulation
 #warning DONE - ToDo - Test this
 - (NSDateFormatter *)dateFormatter
 {
-    if (!_dateFormatter) {
+    if (!_dateFormatter)
+    {
         _dateFormatter = [[NSDateFormatter alloc] init];
         [_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
         [_dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
@@ -325,35 +351,5 @@ forManagedObject:(NSManagedObject *)managedObject
     dateString = [dateString stringByAppendingFormat:@".000Z"];
     return dateString;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @end
