@@ -29,6 +29,9 @@ typedef enum {
 - (void)setValue:(id)value
           forKey:(NSString *)key
 forManagedObject:(NSManagedObject *)managedObject;
+- (void)newManagedObjectWithClassName:(NSString *)className
+                            forRecord:(NSDictionary*)record;
+
 
 #pragma mark Write plist(JSON) to disk
 - (void)writeJSONResponse:(id)arrayOfNsDictJson

@@ -55,7 +55,8 @@
 // Used to propegate saves to the persistent store (disk) without blocking the UI
 // Master
 // runs in an independent thread
-- (NSManagedObjectContext *)masterManagedObjectContext {
+- (NSManagedObjectContext *)masterManagedObjectContext
+{
     if (_masterManagedObjectContext != nil) {
         return _masterManagedObjectContext;
     }
@@ -75,7 +76,8 @@
 
 // Return the NSManagedObjectContext to be used in the background during sync
 // runs in an independent thread
-- (NSManagedObjectContext *)backgroundManagedObjectContext {
+- (NSManagedObjectContext *)backgroundManagedObjectContext
+{
     if (_backgroundManagedObjectContext != nil) {
         return _backgroundManagedObjectContext;
     }
@@ -90,7 +92,6 @@
     
     return _backgroundManagedObjectContext;
 }
-
 
 //lazy instantiation
 // Returns the managed object context for the application.

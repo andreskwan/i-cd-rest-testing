@@ -73,18 +73,9 @@
 
 
 #pragma mark Core Data Helpers
-//to test I need
-//1 managedObject
 
 
-//- (void)setValue:(id)value
-//          forKey:(NSString *)key
-//forManagedObject:(NSManagedObject *)managedObject
 
-
-//////////////////////////////////////////////////////
-//
-//////////////////////////////////////////////////////
 #pragma mark - Write plist(JSON) to disk
 -(void)testApplicationCacheDirectory
 {
@@ -181,4 +172,19 @@
     NSLog(@"date from date: %@", nsStrDate);
 }
 
+//////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////
+//to test I need
+//1 managedObject
+
+
+//- (void)setValue:(id)value
+//          forKey:(NSString *)key
+//forManagedObject:(NSManagedObject *)managedObject
+-(void)testNewManagedObjWithClassNameForRecord
+{
+    [_syncData newManagedObjectWithClassName:_className
+                                   forRecord:_jsonArray[0]];
+}
 @end
