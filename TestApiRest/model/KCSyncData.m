@@ -14,10 +14,11 @@ NSString * const kSDSyncEngineInitialCompleteKey            = @"SDSyncEngineInit
 NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSyncCompleted";
 
 
+
 @interface KCSyncData()
 
-@property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+//@property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
+//@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end
 
@@ -37,6 +38,13 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
     return sharedEngine;
 }
 
+-(NSMutableArray *)registeredClassesToSync
+{
+    if(!_registeredClassesToSync){
+        _registeredClassesToSync = [[NSMutableArray alloc]init];
+    }
+    return _registeredClassesToSync;
+}
 
 #pragma mark Write plist(JSON) to disk
 //return the NSURL of the location on disk for the cache directory
@@ -162,14 +170,14 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
                        });
     }
 }
-#warning ToDo - Test
+#warning ToDo - DONE Test
 - (BOOL)initialSyncComplete
 {
     //how to use NSUserDefaults to retrieve a store a value
     return [[[NSUserDefaults standardUserDefaults] valueForKey:kSDSyncEngineInitialCompleteKey]
             boolValue];
 }
-#warning ToDo - Test
+#warning ToDo - DONE Test
 - (void)setInitialSyncCompleted
 {
     //how to use NSUserDefaults to set or store a value
@@ -194,19 +202,16 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 }
 
 #pragma mark Core Data Helpers
-//Register the NSManagedObjects that will be sync with a remote server
-//use an array to hold this classes (templates)
-#warning ToDo - Test
+//this array holds the NAMEs of the ENTITYs (NSManagedObjects) to syncronize
+//not the objects itself
+#warning ToDo - Done Test
 - (void)registerNSManagedObjectClassToSync:(Class)aClass
 {
-    if (!self.registeredClassesToSync) {
-        self.registeredClassesToSync = [NSMutableArray array];
-    }
     if ([aClass isSubclassOfClass:[NSManagedObject class]]) {
         //does the array have the object?
         if (![self.registeredClassesToSync containsObject:NSStringFromClass(aClass)]) {
             //add the obj to the array
-            [self.registeredClassesToSync addObject:NSStringFromClass(aClass)];
+            [self.registeredClassesToSync addObject:NSStringFromClass([aClass class])];
         } else {
             NSLog(@"Unable to register %@ as it is already registered",
                   NSStringFromClass(aClass));
@@ -216,8 +221,7 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
               NSStringFromClass(aClass));
     }
 }
-//returns the “most recent last modified date” for a specific entity.
-#warning ToDo - Test
+//returns the “most recent last modified date” for a specific entity.#warning ToDo - Test
 - (NSDate *)mostRecentUpdatedAtDateForEntityWithName:(NSString *)entityName
 {
     __block NSDate *date = nil;
@@ -253,19 +257,23 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
      }];
     return date;
 }
+#warning ToDo - Solve - SyncStatus value compativility
 - (void)newManagedObjectWithClassName:(NSString *)className
                             forRecord:(NSDictionary*)record
 {
+    NSManagedObjectContext * mObjCtx = [[KCCoreDataStack shareCoreDataInstance] backgroundManagedObjectContext];
     NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className
-                                                                      inManagedObjectContext:
-                                         [[KCCoreDataStack shareCoreDataInstance] backgroundManagedObjectContext]];
+                                                                      inManagedObjectContext:mObjCtx];
     [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [self setValue:obj forKey:key forManagedObject:newManagedObject];
     }];
-    [record setValue:[NSNumber numberWithInt:SDObjectSynced]
-              forKey:@"syncStatus"];
+    NSNumber * syncValue = [NSNumber numberWithInt:SDObjectDeleted];
+//    [record setValue:syncValue
+//    [record setValue:@0
+//              forKey:@"syncStatus"];
 }
-#warning ToDo - Test
+#warning ToDo - Done Test
+//not tested because is the same test done with setValue:ForKey:ForMangedObject
 - (void)updateManagedObject:(NSManagedObject *)managedObject
                  withRecord:(NSDictionary *)record
 {
@@ -274,13 +282,13 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
          [self setValue:obj forKey:key forManagedObject:managedObject];
      }];
 }
-#warning ToDo - Test this what does mongo return?
+#warning Todo - Done - test
 - (void)setValue:(id)value
           forKey:(NSString *)key
 forManagedObject:(NSManagedObject *)managedObject
 {
-    if ([key isEqualToString:@"date"]      ||
-        [key isEqualToString:@"createdAt"] ||
+    if ([key isEqualToString:@"date"]       ||
+        [key isEqualToString:@"createdAt"]  ||
         [key isEqualToString:@"updatedAt"])
     {
         NSDate *date = [self dateUsingStringFromAPI:value];
@@ -307,12 +315,14 @@ forManagedObject:(NSManagedObject *)managedObject
             }
         }
     } else {
-        //if key == _id then key = objectID
-        //both ways
         if ([key isEqualToString:@"_id"]) {
             key = @"objectId";
+            [managedObject setValue:value forKey:key];
+        }else if ([key isEqualToString:@"__v"]) {
+            //Do nothing!!!
+        }else{
+            [managedObject setValue:value forKey:key];
         }
-        [managedObject setValue:value forKey:key];
     }
 }
 
@@ -408,21 +418,27 @@ forManagedObject:(NSManagedObject *)managedObject
 }
 - (void)processJSONDataRecordsIntoCoreData
 {
+    //create a new managedObjectContext
     NSManagedObjectContext *managedObjectContext = [[KCCoreDataStack shareCoreDataInstance]
                                                     backgroundManagedObjectContext];
     //
     // Iterate over all registered classes to sync
     //
-    for (NSString *className in self.registeredClassesToSync) {
+    for (NSString *className in self.registeredClassesToSync)
+    {
         if (![self initialSyncComplete]) { // import all downloaded data to Core Data for initial sync
             //
             // If this is the initial sync then the logic is pretty simple, you will fetch the JSON data from disk
             // for the class of the current iteration and create new NSManagedObjects for each record
             //
-            NSDictionary *JSONDictionary = [self JSONDictionaryForClassWithName:className];
-            NSArray *records = [JSONDictionary objectForKey:@"results"];
-            for (NSDictionary *record in records) {
-                [self newManagedObjectWithClassName:className forRecord:record];
+//            NSDictionary *JSONDictionary = [self JSONDictionaryForClassWithName:className];
+//            NSArray *records = [JSONDictionary objectForKey:@"results"];
+//            for (NSDictionary *record in records) {
+//                [self newManagedObjectWithClassName:className forRecord:record];
+//            }
+            NSArray *  nsArrayJson = [self JSONDictionaryForClassWithName:className];
+            for (NSDictionary* dict in nsArrayJson) {
+                [self newManagedObjectWithClassName:className forRecord:dict];
             }
         } else {
             //

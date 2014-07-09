@@ -9,16 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "KCCoreDataStack.h"
 
-typedef enum {
-    SDObjectSynced = 0,
+typedef NS_ENUM(NSInteger, SDObjectSyncStatus) {
+    SDObjectSynced,
     SDObjectCreated,
     SDObjectDeleted,
-} SDObjectSyncStatus;
+};
+
+//NSString * const kSDSyncEngineInitialCompleteKey            = @"SDSyncEngineInitialSyncCompleted";
+//NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSyncCompleted";
 
 @interface KCSyncData : NSObject
 
+@property (nonatomic, strong) NSMutableArray *registeredClassesToSync;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+
 //to track the sync status:
 @property (atomic, readonly) BOOL syncInProgress;
+
+
+
 
 + (KCSyncData *) sharedSyncDataEngine;
 
@@ -29,9 +38,18 @@ typedef enum {
 - (void)setValue:(id)value
           forKey:(NSString *)key
 forManagedObject:(NSManagedObject *)managedObject;
+
 - (void)newManagedObjectWithClassName:(NSString *)className
                             forRecord:(NSDictionary*)record;
-
+- (void)updateManagedObject:(NSManagedObject *)managedObject
+                 withRecord:(NSDictionary *)record;
+- (NSArray *)managedObjectsForClass:(NSString *)className
+                     withSyncStatus:(SDObjectSyncStatus)syncStatus;
+- (NSArray *)managedObjectsForClass:(NSString *)className
+                        sortedByKey:(NSString *)key
+                    usingArrayOfIds:(NSArray *)idArray
+                       inArrayOfIds:(BOOL)inIds;
+- (void)processJSONDataRecordsIntoCoreData;
 
 #pragma mark Write plist(JSON) to disk
 - (void)writeJSONResponse:(id)arrayOfNsDictJson

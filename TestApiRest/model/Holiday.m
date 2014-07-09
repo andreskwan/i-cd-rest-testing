@@ -2,7 +2,7 @@
 //  Holiday.m
 //  TestApiRest
 //
-//  Created by Andres Kwan on 6/27/14.
+//  Created by Andres Kwan on 7/7/14.
 //  Copyright (c) 2014 Kwan Castle. All rights reserved.
 //
 
@@ -16,8 +16,8 @@
 @dynamic details;
 @dynamic image;
 @dynamic name;
-@dynamic observedBy;
 @dynamic objectId;
+@dynamic observedBy;
 @dynamic syncStatus;
 @dynamic updatedAt;
 @dynamic wikipediaLink;

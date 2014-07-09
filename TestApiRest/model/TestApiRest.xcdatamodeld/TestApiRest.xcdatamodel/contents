@@ -4,7 +4,7 @@
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="details" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="observedBy" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -13,6 +13,6 @@
         <attribute name="wikipediaLink" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Holiday" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="Holiday" positionX="-63" positionY="-18" width="128" height="28"/>
     </elements>
 </model>

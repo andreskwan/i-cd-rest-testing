@@ -8,6 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "KCSyncData.h"
+#import "KCCoreDataStack.h"
+#import <CoreData/CoreData.h>
 
 @interface TestApiRestTests : XCTestCase{
     KCSyncData * _syncData;
@@ -15,6 +17,7 @@
     NSString * _strTestDate;
     NSArray  * _jsonArray;
     NSArray  * _nsArrayJson;
+    NSManagedObject * _newManagedObject;
 }
 @end
 
@@ -61,6 +64,11 @@
                          @"updatedAt" : @"2014-07-02T11:33:00.000Z",
                          @"wikipediaLink" : @"http://en.wikipedia.org/wiki/IOS_8"
                          }];
+    
+    _newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:_className
+                                                      inManagedObjectContext:
+                                         [[KCCoreDataStack shareCoreDataInstance] backgroundManagedObjectContext]];
+
 }
 - (void)tearDown
 {
@@ -69,6 +77,7 @@
     _syncData  = nil;
     _className = nil;
     _jsonArray = nil;
+    _newManagedObject = nil;
 }
 
 
@@ -99,7 +108,7 @@
     [_syncData writeJSONResponse:_jsonArray
           toDiskForClassWithName:_className];
     
-    //3) verify that it was writen
+    //3) verify that was writen
     _nsArrayJson = [_syncData JSONDictionaryForClassWithName:_className];
     XCTAssertNotNil(_nsArrayJson, @"nsArrayJson was nil, no data writed");
     
@@ -116,7 +125,7 @@
     [_syncData writeJSONResponse:_jsonArray
           toDiskForClassWithName:_className];
     
-    //2) retrieve data?
+    //2) retrieve data form disk
     NSLog(@"##########################################");
     NSArray *  nsArrayJson = [_syncData JSONDictionaryForClassWithName:_className];
     XCTAssertNotNil(nsArrayJson, @"nsArrayJson was nil, no data stored on disk\n");
@@ -173,18 +182,90 @@
 }
 
 //////////////////////////////////////////////////////
-//
+#pragma mark - CoreData
 //////////////////////////////////////////////////////
 //to test I need
 //1 managedObject
 
+-(void)testSetValueForKeyForManagedObj
+{
+    
+    [_jsonArray[0] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [_syncData setValue:obj forKey:key forManagedObject:_newManagedObject];
+    }];
+    
+    NSLog(@"\nnew NSManaged object: \n%@\n created from json(plist): \n%@\n",_newManagedObject,_jsonArray[0]);
+}
 
-//- (void)setValue:(id)value
-//          forKey:(NSString *)key
-//forManagedObject:(NSManagedObject *)managedObject
+#warning ToDo - how to assert? 
+//a new nsmanagedObjt was created, not nil?
+//but is not returned
+//just added to the backgroundContext
 -(void)testNewManagedObjWithClassNameForRecord
 {
     [_syncData newManagedObjectWithClassName:_className
                                    forRecord:_jsonArray[0]];
+}
+//DONE
+//
+//- precondition
+//
+//none
+//
+//- parameters
+//
+//an Obj of type NSManagedObj to be sync
+//
+//- goal
+//
+//  to add the Name of the entities to be sync into the array
+//  registeredClassesToSync
+//1) instantiate a NSManagedObject
+-(void)testRegisterNSManagedObjectClassToSync
+{
+//    [_syncData registerNSManagedObjectClassToSync:_newManagedObject];
+}
+//- precondition
+//
+//p1 _syncData.registeredClassesToSync must have at least one name of an entity to be sync
+//p2 NSUserDefaults must have a key named kSDSyncEngineInitialCompleteKey with value YES or NO(import all downloaded)
+//p3 plist with valid obj data most be stored on disk
+//
+//- parameters
+//
+//none
+//
+//- goal
+//
+//  to add the Name of the entities to be sync into the array
+//  registeredClassesToSync
+//1) instantiate a NSManagedObject
+-(void)testProcessJSONDataRecordsIntoCoreData
+{
+
+    NSManagedObject * newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:_className
+                                                                         inManagedObjectContext:
+                                            [[KCCoreDataStack shareCoreDataInstance] backgroundManagedObjectContext]];
+    XCTAssertTrue([newManagedObject isKindOfClass:[NSManagedObject class]], @"%@ is not a nsmanagedObject",newManagedObject);
+    
+    //p1
+//    [_syncData registerNSManagedObjectClassToSync:newManagedObject];
+    [_syncData.registeredClassesToSync addObject:_className];
+    XCTAssertTrue([[_syncData registeredClassesToSync] count] > 0 , @"registeredClassesToSync array is empty");
+    
+    
+    //p2 //NO to test with imported data or data stored in the plist on the disk
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO]
+                                             forKey:@"SDSyncEngineInitialSyncCompleted"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    //p3
+    [_syncData deleteJSONDataRecordsForClassWithName:_className];
+    _nsArrayJson = [_syncData JSONDictionaryForClassWithName:_className];
+    XCTAssertNil(_nsArrayJson, @"nsArrayJson is not nil, not deleted");
+    [_syncData writeJSONResponse:_jsonArray
+          toDiskForClassWithName:_className];
+    _nsArrayJson = [_syncData JSONDictionaryForClassWithName:_className];
+    XCTAssertNotNil(_nsArrayJson, @"nsArrayJson was nil, no data writed");
+    [_syncData processJSONDataRecordsIntoCoreData];
 }
 @end
