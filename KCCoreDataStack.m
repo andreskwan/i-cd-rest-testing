@@ -21,7 +21,7 @@
 +(instancetype)shareCoreDataInstance
 {
     //static variables exist only once in our app
-    static KCCoreDataStack *defaultStack;
+    static KCCoreDataStack *shareCoreDataInstance;
     //
     static dispatch_once_t  onceToken;
     
@@ -29,28 +29,12 @@
     dispatch_once(&onceToken, ^{
         //will be execute only once
         //It could have a better name
-        //like - sharedCoreDataStack
-        defaultStack = [[self alloc] init];
+        shareCoreDataInstance = [[self alloc] init];
     });
-    return defaultStack;
+    return shareCoreDataInstance;
 }
-
-- (void)saveContext
-{
-    NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            #warning ToDo - this should not be in production
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
-}
-
 #pragma mark - Core Data stack
+
 
 // Used to propegate saves to the persistent store (disk) without blocking the UI
 // Master
@@ -96,18 +80,76 @@
 //lazy instantiation
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
+//- (NSManagedObjectContext *)managedObjectContext
+//{
+//    if (_managedObjectContext != nil) {
+//        return _managedObjectContext;
+//    }
+//    
+//    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+//    if (coordinator != nil) {
+//        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+//        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+//    }
+//    return _managedObjectContext;
+//}
+
+// Return the NSManagedObjectContext to be used in the background during sync
 - (NSManagedObjectContext *)managedObjectContext
 {
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
+    NSManagedObjectContext *newContext = nil;
+    NSManagedObjectContext *masterContext = [self masterManagedObjectContext];
+    if (masterContext != nil) {
+        newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        [newContext performBlockAndWait:^{
+            [newContext setParentContext:masterContext];
+        }];
     }
     
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    return newContext;
+}
+
+- (void)saveContext
+{
+    NSError *error = nil;
+    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    if (managedObjectContext != nil) {
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+    #warning ToDo - this should not be in production
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
     }
-    return _managedObjectContext;
+}
+- (void)saveMasterContext
+{
+   if (self.masterManagedObjectContext != nil) {
+    [self.masterManagedObjectContext performBlockAndWait:^{
+        NSError *error = nil;
+        BOOL changed = [self.masterManagedObjectContext hasChanges];
+        BOOL saved = [self.masterManagedObjectContext save:&error];
+        if (changed && !saved) {
+            // do some real error handling
+            NSLog(@"Could not save master context due to %@", error);
+        }
+    }];
+   }
+}
+- (void)saveBackgroundContext
+{
+    if (self.backgroundManagedObjectContext != nil) {
+        [self.backgroundManagedObjectContext performBlockAndWait:^{
+            NSError *error = nil;
+            BOOL changed = [self.backgroundManagedObjectContext hasChanges];
+            BOOL saved = [self.backgroundManagedObjectContext save:&error];
+            if ( changed && !saved) {
+                // do some real error handling
+                NSLog(@"Could not save background context due to %@", error);
+            }
+        }];
+    }
 }
 
 // Returns the managed object model for the application.

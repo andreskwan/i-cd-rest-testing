@@ -187,16 +187,21 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 }
 #warning ToDo - Identify where (by whom) and when this method is called
 #warning ToDo - Test
-- (void)executeSyncCompletedOperations
-{
+- (void)executeSyncCompletedOperations {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setInitialSyncCompleted];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSDSyncEngineSyncCompletedNotificationName
-                                                            object:nil];
+        NSError *error = nil;
+        [[KCCoreDataStack shareCoreDataInstance] saveBackgroundContext];
+        if (error) {
+            NSLog(@"Error saving background context after creating objects on server: %@", error);
+        }
+        
+        [[KCCoreDataStack shareCoreDataInstance] saveMasterContext];
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:kSDSyncEngineSyncCompletedNotificationName
+         object:nil];
         [self willChangeValueForKey:@"syncInProgress"];
-        
         _syncInProgress = NO;
-        
         [self didChangeValueForKey:@"syncInProgress"];
     });
 }
@@ -261,13 +266,14 @@ NSString * const kSDSyncEngineSyncCompletedNotificationName = @"SDSyncEngineSync
 - (void)newManagedObjectWithClassName:(NSString *)className
                             forRecord:(NSDictionary*)record
 {
-    NSManagedObjectContext * mObjCtx = [[KCCoreDataStack shareCoreDataInstance] backgroundManagedObjectContext];
+//    NSManagedObjectContext * mObjCtx = [[KCCoreDataStack shareCoreDataInstance] backgroundManagedObjectContext];
     NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:className
-                                                                      inManagedObjectContext:mObjCtx];
+                                                                      inManagedObjectContext:[[KCCoreDataStack shareCoreDataInstance] backgroundManagedObjectContext]];
     [record enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [self setValue:obj forKey:key forManagedObject:newManagedObject];
     }];
-    NSNumber * syncValue = [NSNumber numberWithInt:SDObjectDeleted];
+//    NSNumber * syncValue = [NSNumber numberWithInt:SDObjectDeleted];
+    [record setValue:[NSNumber numberWithInt:SDObjectSynced] forKey:@"syncStatus"];
 //    [record setValue:syncValue
 //    [record setValue:@0
 //              forKey:@"syncStatus"];
@@ -371,6 +377,7 @@ forManagedObject:(NSManagedObject *)managedObject
                            }else{
                                NSLog(@"Request for class %@ failed with error: %@", className, error);
                            }
+                           [self processJSONDataRecordsIntoCoreData];
                        }
                    }];
         [dataTask resume]; //8
@@ -426,7 +433,8 @@ forManagedObject:(NSManagedObject *)managedObject
     //
     for (NSString *className in self.registeredClassesToSync)
     {
-        if (![self initialSyncComplete]) { // import all downloaded data to Core Data for initial sync
+//        if (![self initialSyncComplete]) { // import all downloaded data to Core Data for initial sync
+          if (YES) {
             //
             // If this is the initial sync then the logic is pretty simple, you will fetch the JSON data from disk
             // for the class of the current iteration and create new NSManagedObjects for each record

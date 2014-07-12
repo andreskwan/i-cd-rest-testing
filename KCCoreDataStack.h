@@ -28,4 +28,10 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+- (void)saveMasterContext;
+- (void)saveBackgroundContext;
+
+- (void)newManagedObjectWithClassName:(NSString *)className
+                            forRecord:(NSDictionary *)record;
+
 @end

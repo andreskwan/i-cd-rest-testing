@@ -25,11 +25,35 @@
 		EA892F6F195D211B00ECECFD /* KCCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = EA892F6E195D211B00ECECFD /* KCCoreDataStack.m */; };
 		EA892F73195E12C300ECECFD /* TestApiRest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA892F71195E12C300ECECFD /* TestApiRest.xcdatamodeld */; };
 		EA892F78195E147800ECECFD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA892F77195E147800ECECFD /* CoreData.framework */; };
+		EA8FEBCA1970A8C000027DF8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252C019536A7000F7A3F5 /* XCTest.framework */; };
+		EA8FEBCB1970A8C000027DF8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252A119536A7000F7A3F5 /* Foundation.framework */; };
+		EA8FEBCC1970A8C000027DF8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252A519536A7000F7A3F5 /* UIKit.framework */; };
+		EA8FEBD21970A8C000027DF8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA8FEBD01970A8C000027DF8 /* InfoPlist.strings */; };
+		EA8FEBD41970A8C000027DF8 /* TesCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8FEBD31970A8C000027DF8 /* TesCoreDataStack.m */; };
+		EA8FEBF61970AE5300027DF8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252C019536A7000F7A3F5 /* XCTest.framework */; };
+		EA8FEBF71970AE5300027DF8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252A119536A7000F7A3F5 /* Foundation.framework */; };
+		EA8FEBF81970AE5300027DF8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252A519536A7000F7A3F5 /* UIKit.framework */; };
+		EA8FEBFE1970AE5300027DF8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA8FEBFC1970AE5300027DF8 /* InfoPlist.strings */; };
+		EA8FEC001970AE5300027DF8 /* TestCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8FEBFF1970AE5300027DF8 /* TestCoreDataStack.m */; };
 		EAD40E6C196B105E00A7F1C9 /* Holiday.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD40E6B196B105E00A7F1C9 /* Holiday.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		EA8252C419536A7000F7A3F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA82529619536A7000F7A3F5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA82529D19536A7000F7A3F5;
+			remoteInfo = TestApiRest;
+		};
+		EA8FEBD61970A8C000027DF8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA82529619536A7000F7A3F5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA82529D19536A7000F7A3F5;
+			remoteInfo = TestApiRest;
+		};
+		EA8FEC021970AE5300027DF8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EA82529619536A7000F7A3F5 /* Project object */;
 			proxyType = 1;
@@ -64,6 +88,16 @@
 		EA892F6E195D211B00ECECFD /* KCCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCCoreDataStack.m; sourceTree = "<group>"; };
 		EA892F72195E12C300ECECFD /* TestApiRest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestApiRest.xcdatamodel; sourceTree = "<group>"; };
 		EA892F77195E147800ECECFD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		EA8FEBC91970A8C000027DF8 /* TesCoreDataStack.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesCoreDataStack.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA8FEBCF1970A8C000027DF8 /* TesCoreDataStack-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesCoreDataStack-Info.plist"; sourceTree = "<group>"; };
+		EA8FEBD11970A8C000027DF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EA8FEBD31970A8C000027DF8 /* TesCoreDataStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TesCoreDataStack.m; sourceTree = "<group>"; };
+		EA8FEBD51970A8C000027DF8 /* TesCoreDataStack-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TesCoreDataStack-Prefix.pch"; sourceTree = "<group>"; };
+		EA8FEBF51970AE5300027DF8 /* TestCoreDataStack.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestCoreDataStack.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA8FEBFB1970AE5300027DF8 /* TestCoreDataStack-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestCoreDataStack-Info.plist"; sourceTree = "<group>"; };
+		EA8FEBFD1970AE5300027DF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EA8FEBFF1970AE5300027DF8 /* TestCoreDataStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestCoreDataStack.m; sourceTree = "<group>"; };
+		EA8FEC011970AE5300027DF8 /* TestCoreDataStack-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestCoreDataStack-Prefix.pch"; sourceTree = "<group>"; };
 		EAD40E6A196B105E00A7F1C9 /* Holiday.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Holiday.h; path = TestApiRest/model/Holiday.h; sourceTree = "<group>"; };
 		EAD40E6B196B105E00A7F1C9 /* Holiday.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Holiday.m; path = TestApiRest/model/Holiday.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +124,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EA8FEBC61970A8C000027DF8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA8FEBCA1970A8C000027DF8 /* XCTest.framework in Frameworks */,
+				EA8FEBCC1970A8C000027DF8 /* UIKit.framework in Frameworks */,
+				EA8FEBCB1970A8C000027DF8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA8FEBF21970AE5300027DF8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA8FEBF61970AE5300027DF8 /* XCTest.framework in Frameworks */,
+				EA8FEBF81970AE5300027DF8 /* UIKit.framework in Frameworks */,
+				EA8FEBF71970AE5300027DF8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -99,6 +153,8 @@
 				EA892F70195D212500ECECFD /* model */,
 				EA8252A719536A7000F7A3F5 /* TestApiRest */,
 				EA8252C619536A7000F7A3F5 /* TestApiRestTests */,
+				EA8FEBCD1970A8C000027DF8 /* TesCoreDataStack */,
+				EA8FEBF91970AE5300027DF8 /* TestCoreDataStack */,
 				EA8252A019536A7000F7A3F5 /* Frameworks */,
 				EA82529F19536A7000F7A3F5 /* Products */,
 			);
@@ -109,6 +165,8 @@
 			children = (
 				EA82529E19536A7000F7A3F5 /* TestApiRest.app */,
 				EA8252BF19536A7000F7A3F5 /* TestApiRestTests.xctest */,
+				EA8FEBC91970A8C000027DF8 /* TesCoreDataStack.xctest */,
+				EA8FEBF51970AE5300027DF8 /* TestCoreDataStack.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -182,6 +240,44 @@
 			name = model;
 			sourceTree = "<group>";
 		};
+		EA8FEBCD1970A8C000027DF8 /* TesCoreDataStack */ = {
+			isa = PBXGroup;
+			children = (
+				EA8FEBD31970A8C000027DF8 /* TesCoreDataStack.m */,
+				EA8FEBCE1970A8C000027DF8 /* Supporting Files */,
+			);
+			path = TesCoreDataStack;
+			sourceTree = "<group>";
+		};
+		EA8FEBCE1970A8C000027DF8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EA8FEBCF1970A8C000027DF8 /* TesCoreDataStack-Info.plist */,
+				EA8FEBD01970A8C000027DF8 /* InfoPlist.strings */,
+				EA8FEBD51970A8C000027DF8 /* TesCoreDataStack-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EA8FEBF91970AE5300027DF8 /* TestCoreDataStack */ = {
+			isa = PBXGroup;
+			children = (
+				EA8FEBFF1970AE5300027DF8 /* TestCoreDataStack.m */,
+				EA8FEBFA1970AE5300027DF8 /* Supporting Files */,
+			);
+			path = TestCoreDataStack;
+			sourceTree = "<group>";
+		};
+		EA8FEBFA1970AE5300027DF8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EA8FEBFB1970AE5300027DF8 /* TestCoreDataStack-Info.plist */,
+				EA8FEBFC1970AE5300027DF8 /* InfoPlist.strings */,
+				EA8FEC011970AE5300027DF8 /* TestCoreDataStack-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -220,6 +316,42 @@
 			productReference = EA8252BF19536A7000F7A3F5 /* TestApiRestTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		EA8FEBC81970A8C000027DF8 /* TesCoreDataStack */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA8FEBDA1970A8C000027DF8 /* Build configuration list for PBXNativeTarget "TesCoreDataStack" */;
+			buildPhases = (
+				EA8FEBC51970A8C000027DF8 /* Sources */,
+				EA8FEBC61970A8C000027DF8 /* Frameworks */,
+				EA8FEBC71970A8C000027DF8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA8FEBD71970A8C000027DF8 /* PBXTargetDependency */,
+			);
+			name = TesCoreDataStack;
+			productName = TesCoreDataStack;
+			productReference = EA8FEBC91970A8C000027DF8 /* TesCoreDataStack.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EA8FEBF41970AE5300027DF8 /* TestCoreDataStack */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA8FEC041970AE5300027DF8 /* Build configuration list for PBXNativeTarget "TestCoreDataStack" */;
+			buildPhases = (
+				EA8FEBF11970AE5300027DF8 /* Sources */,
+				EA8FEBF21970AE5300027DF8 /* Frameworks */,
+				EA8FEBF31970AE5300027DF8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA8FEC031970AE5300027DF8 /* PBXTargetDependency */,
+			);
+			name = TestCoreDataStack;
+			productName = TestCoreDataStack;
+			productReference = EA8FEBF51970AE5300027DF8 /* TestCoreDataStack.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -231,6 +363,12 @@
 				ORGANIZATIONNAME = "Kwan Castle";
 				TargetAttributes = {
 					EA8252BE19536A7000F7A3F5 = {
+						TestTargetID = EA82529D19536A7000F7A3F5;
+					};
+					EA8FEBC81970A8C000027DF8 = {
+						TestTargetID = EA82529D19536A7000F7A3F5;
+					};
+					EA8FEBF41970AE5300027DF8 = {
 						TestTargetID = EA82529D19536A7000F7A3F5;
 					};
 				};
@@ -250,6 +388,8 @@
 			targets = (
 				EA82529D19536A7000F7A3F5 /* TestApiRest */,
 				EA8252BE19536A7000F7A3F5 /* TestApiRestTests */,
+				EA8FEBC81970A8C000027DF8 /* TesCoreDataStack */,
+				EA8FEBF41970AE5300027DF8 /* TestCoreDataStack */,
 			);
 		};
 /* End PBXProject section */
@@ -270,6 +410,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA8252CB19536A7000F7A3F5 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA8FEBC71970A8C000027DF8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA8FEBD21970A8C000027DF8 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA8FEBF31970AE5300027DF8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA8FEBFE1970AE5300027DF8 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +454,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EA8FEBC51970A8C000027DF8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA8FEBD41970A8C000027DF8 /* TesCoreDataStack.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA8FEBF11970AE5300027DF8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA8FEC001970AE5300027DF8 /* TestCoreDataStack.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -305,6 +477,16 @@
 			isa = PBXTargetDependency;
 			target = EA82529D19536A7000F7A3F5 /* TestApiRest */;
 			targetProxy = EA8252C419536A7000F7A3F5 /* PBXContainerItemProxy */;
+		};
+		EA8FEBD71970A8C000027DF8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA82529D19536A7000F7A3F5 /* TestApiRest */;
+			targetProxy = EA8FEBD61970A8C000027DF8 /* PBXContainerItemProxy */;
+		};
+		EA8FEC031970AE5300027DF8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA82529D19536A7000F7A3F5 /* TestApiRest */;
+			targetProxy = EA8FEC021970AE5300027DF8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -329,6 +511,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				EA8252CA19536A7000F7A3F5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		EA8FEBD01970A8C000027DF8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA8FEBD11970A8C000027DF8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		EA8FEBFC1970AE5300027DF8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA8FEBFD1970AE5300027DF8 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -472,6 +670,86 @@
 			};
 			name = Release;
 		};
+		EA8FEBD81970A8C000027DF8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestApiRest.app/TestApiRest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TesCoreDataStack/TesCoreDataStack-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "TesCoreDataStack/TesCoreDataStack-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		EA8FEBD91970A8C000027DF8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestApiRest.app/TestApiRest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TesCoreDataStack/TesCoreDataStack-Prefix.pch";
+				INFOPLIST_FILE = "TesCoreDataStack/TesCoreDataStack-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		EA8FEC051970AE5300027DF8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestApiRest.app/TestApiRest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TestCoreDataStack/TestCoreDataStack-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "TestCoreDataStack/TestCoreDataStack-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		EA8FEC061970AE5300027DF8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestApiRest.app/TestApiRest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TestCoreDataStack/TestCoreDataStack-Prefix.pch";
+				INFOPLIST_FILE = "TestCoreDataStack/TestCoreDataStack-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -501,6 +779,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		EA8FEBDA1970A8C000027DF8 /* Build configuration list for PBXNativeTarget "TesCoreDataStack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA8FEBD81970A8C000027DF8 /* Debug */,
+				EA8FEBD91970A8C000027DF8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EA8FEC041970AE5300027DF8 /* Build configuration list for PBXNativeTarget "TestCoreDataStack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA8FEC051970AE5300027DF8 /* Debug */,
+				EA8FEC061970AE5300027DF8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 

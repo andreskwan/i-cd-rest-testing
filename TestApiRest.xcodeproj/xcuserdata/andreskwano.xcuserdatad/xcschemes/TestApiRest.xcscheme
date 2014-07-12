@@ -38,6 +38,26 @@
                ReferencedContainer = "container:TestApiRest.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EA8FEBC81970A8C000027DF8"
+               BuildableName = "TesCoreDataStack.xctest"
+               BlueprintName = "TesCoreDataStack"
+               ReferencedContainer = "container:TestApiRest.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EA8FEBF41970AE5300027DF8"
+               BuildableName = "TestCoreDataStack.xctest"
+               BlueprintName = "TestCoreDataStack"
+               ReferencedContainer = "container:TestApiRest.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

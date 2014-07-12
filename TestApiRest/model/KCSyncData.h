@@ -10,9 +10,9 @@
 #import "KCCoreDataStack.h"
 
 typedef NS_ENUM(NSInteger, SDObjectSyncStatus) {
-    SDObjectSynced,
-    SDObjectCreated,
-    SDObjectDeleted,
+    SDObjectSynced  = 0,
+    SDObjectCreated = 1,
+    SDObjectDeleted = 2,
 };
 
 //NSString * const kSDSyncEngineInitialCompleteKey            = @"SDSyncEngineInitialSyncCompleted";
