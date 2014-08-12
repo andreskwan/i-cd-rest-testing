@@ -60,6 +60,9 @@
 
 // Return the NSManagedObjectContext to be used in the background during sync
 // runs in an independent thread
+//
+// this allows Performing background operations on a second thread or queue.
+// Managing discardable edits, such as in an inspector window or view. 
 - (NSManagedObjectContext *)backgroundManagedObjectContext
 {
     if (_backgroundManagedObjectContext != nil) {
@@ -109,20 +112,20 @@
     return newContext;
 }
 
-- (void)saveContext
-{
-    NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-    #warning ToDo - this should not be in production
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
-}
+//- (void)saveContext
+//{
+//    NSError *error = nil;
+//    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+//    if (managedObjectContext != nil) {
+//        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+//            // Replace this implementation with code to handle the error appropriately.
+//            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//    #warning ToDo - this should not be in production
+//            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+//            abort();
+//        }
+//    }
+//}
 - (void)saveMasterContext
 {
    if (self.masterManagedObjectContext != nil) {

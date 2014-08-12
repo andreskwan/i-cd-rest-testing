@@ -40,7 +40,7 @@
     holiday.name    = @"Andres Kwan Orjuela";
     holiday.objectId= @"123456";
     
-    [_coreDataStack backgroundManagedObjectContext];
+    [_coreDataStack saveMasterContext];
     
 }
 @end

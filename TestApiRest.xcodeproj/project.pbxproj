@@ -33,8 +33,6 @@
 		EA8FEBF61970AE5300027DF8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252C019536A7000F7A3F5 /* XCTest.framework */; };
 		EA8FEBF71970AE5300027DF8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252A119536A7000F7A3F5 /* Foundation.framework */; };
 		EA8FEBF81970AE5300027DF8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8252A519536A7000F7A3F5 /* UIKit.framework */; };
-		EA8FEBFE1970AE5300027DF8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA8FEBFC1970AE5300027DF8 /* InfoPlist.strings */; };
-		EA8FEC001970AE5300027DF8 /* TestCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8FEBFF1970AE5300027DF8 /* TestCoreDataStack.m */; };
 		EAD40E6C196B105E00A7F1C9 /* Holiday.m in Sources */ = {isa = PBXBuildFile; fileRef = EAD40E6B196B105E00A7F1C9 /* Holiday.m */; };
 /* End PBXBuildFile section */
 
@@ -94,10 +92,6 @@
 		EA8FEBD31970A8C000027DF8 /* TesCoreDataStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TesCoreDataStack.m; sourceTree = "<group>"; };
 		EA8FEBD51970A8C000027DF8 /* TesCoreDataStack-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TesCoreDataStack-Prefix.pch"; sourceTree = "<group>"; };
 		EA8FEBF51970AE5300027DF8 /* TestCoreDataStack.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestCoreDataStack.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA8FEBFB1970AE5300027DF8 /* TestCoreDataStack-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestCoreDataStack-Info.plist"; sourceTree = "<group>"; };
-		EA8FEBFD1970AE5300027DF8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		EA8FEBFF1970AE5300027DF8 /* TestCoreDataStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestCoreDataStack.m; sourceTree = "<group>"; };
-		EA8FEC011970AE5300027DF8 /* TestCoreDataStack-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestCoreDataStack-Prefix.pch"; sourceTree = "<group>"; };
 		EAD40E6A196B105E00A7F1C9 /* Holiday.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Holiday.h; path = TestApiRest/model/Holiday.h; sourceTree = "<group>"; };
 		EAD40E6B196B105E00A7F1C9 /* Holiday.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Holiday.m; path = TestApiRest/model/Holiday.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -154,7 +148,6 @@
 				EA8252A719536A7000F7A3F5 /* TestApiRest */,
 				EA8252C619536A7000F7A3F5 /* TestApiRestTests */,
 				EA8FEBCD1970A8C000027DF8 /* TesCoreDataStack */,
-				EA8FEBF91970AE5300027DF8 /* TestCoreDataStack */,
 				EA8252A019536A7000F7A3F5 /* Frameworks */,
 				EA82529F19536A7000F7A3F5 /* Products */,
 			);
@@ -255,25 +248,6 @@
 				EA8FEBCF1970A8C000027DF8 /* TesCoreDataStack-Info.plist */,
 				EA8FEBD01970A8C000027DF8 /* InfoPlist.strings */,
 				EA8FEBD51970A8C000027DF8 /* TesCoreDataStack-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		EA8FEBF91970AE5300027DF8 /* TestCoreDataStack */ = {
-			isa = PBXGroup;
-			children = (
-				EA8FEBFF1970AE5300027DF8 /* TestCoreDataStack.m */,
-				EA8FEBFA1970AE5300027DF8 /* Supporting Files */,
-			);
-			path = TestCoreDataStack;
-			sourceTree = "<group>";
-		};
-		EA8FEBFA1970AE5300027DF8 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EA8FEBFB1970AE5300027DF8 /* TestCoreDataStack-Info.plist */,
-				EA8FEBFC1970AE5300027DF8 /* InfoPlist.strings */,
-				EA8FEC011970AE5300027DF8 /* TestCoreDataStack-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -425,7 +399,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA8FEBFE1970AE5300027DF8 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +439,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA8FEC001970AE5300027DF8 /* TestCoreDataStack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,14 +491,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EA8FEBD11970A8C000027DF8 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		EA8FEBFC1970AE5300027DF8 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EA8FEBFD1970AE5300027DF8 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -787,6 +751,7 @@
 				EA8FEBD91970A8C000027DF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EA8FEC041970AE5300027DF8 /* Build configuration list for PBXNativeTarget "TestCoreDataStack" */ = {
 			isa = XCConfigurationList;
@@ -795,6 +760,7 @@
 				EA8FEC061970AE5300027DF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
